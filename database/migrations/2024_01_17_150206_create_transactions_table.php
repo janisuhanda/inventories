@@ -21,6 +21,9 @@ return new class extends Migration
             $table->integer('approval'); // approval superv gudang
             $table->integer('quantity'); // jumlah barang
             $table->timestamps();
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

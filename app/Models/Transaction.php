@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }
