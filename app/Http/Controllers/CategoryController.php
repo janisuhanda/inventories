@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
+
 
 class CategoryController extends Controller
 {
@@ -11,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories=Category::latest()->get();
+        return view('categories.index',compact('categories'));
     }
 
     /**
@@ -19,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -27,7 +31,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         // validation form
+         $this->validate($request,[
+            'name' => 'required|min:3'
+        ]);
+
+        // create ke database
+        Category::create([
+            'name' => $request->name
+        ]);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -43,7 +56,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // cari data yg mau di edit berdasarkan id
+        $category=Category::findOrFail($id);
+        return view('categories.edit',compact('category'));
     }
 
     /**
@@ -51,7 +66,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+                // validasi
+                $this->validate($request,[
+                    'name' => 'required|min:3'
+                ]);
+
+                // cari yg mau di edit
+                $category=Category::findOrFail($id);
+                // update ke database
+            $category->update([
+                'name' => $request->name
+            ]);
+
+            return redirect()->route('categories.index');
+
     }
 
     /**
@@ -59,6 +87,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         // cari yg mau di delete
+         $category=Category::findOrFail($id);
+
+         // delete row data dalam database
+         $category->delete();
+
+         return redirect()->route('categories.index');
     }
 }
