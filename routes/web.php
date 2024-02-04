@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +35,4 @@ Route::post('/register',[RegisterController::class,'store'])->name('register.sto
 Route::get('/home',[HomeController::class,'index'])->middleware('auth');
 
 Route::resource('categories',CategoryController::class)->middleware('auth');
+Route::resource('products',ProductController::class)->middleware('auth');
